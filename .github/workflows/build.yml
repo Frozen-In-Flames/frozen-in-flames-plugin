@@ -92,7 +92,10 @@ jobs:
         run: cmake --build build --config Release -j 4
 
       - name: Run DSP tests
-        run: ./build/dsp_tests.exe
+        shell: pwsh
+        run: |
+          if (Test-Path "build/Release/dsp_tests.exe") { ./build/Release/dsp_tests.exe } else { ./build/dsp_tests.exe }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Collect bundle
         shell: pwsh
