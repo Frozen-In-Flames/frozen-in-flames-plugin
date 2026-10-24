@@ -35,7 +35,7 @@ Products land in `build/FrozenInFlames_artefacts/Release/` (VST3, Standalone, an
 - **AU builds on macOS only.** The AU target is declared in CMake and produced automatically when building on a Mac. A ready GitHub Actions workflow is attached to the v1.0.0 release (place it at `.github/workflows/build.yml`) so release tags build the macOS VST3 and AU automatically. It cannot be compiled on Windows or Linux.
 - **Linux** needs the usual JUCE system packages: `libasound2-dev libx11-dev libxext-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libfreetype6-dev libfontconfig1-dev libgl1-mesa-dev`.
 - **macOS release binaries require code signing and notarization** with the owner's Apple Developer account before they load without Gatekeeper warnings. That step is intentionally not part of this repository's automation yet; unsigned builds work with the one-time allowance described in the User Setup Guide.
-- **Windows** builds produce the VST3 and Standalone with the same two commands above.
+- **Windows** builds produce the VST3 and Standalone with the same two commands above. A CI-built Windows VST3 is attached to the v1.0.0 release (GitHub Actions run 40065200294); it has not yet been tested in a Windows host.
 
 ## Architecture
 
