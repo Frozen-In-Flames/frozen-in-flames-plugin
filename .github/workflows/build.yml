@@ -1,0 +1,80 @@
+# Frozen in Flames: plugin builds.
+#
+# Builds the VST3 on Linux and the VST3 + AU on macOS, and uploads the
+# bundles as workflow artifacts. This is how the AU binary is produced:
+# AU can only be compiled on macOS, so it is built here on a macOS runner,
+# never on a Linux machine.
+#
+# There is deliberately no code signing or notarization in this workflow.
+# Signing requires the owner's own Apple Developer account and happens as
+# a separate, later step. Until then, macOS builds are unsigned (see the
+# Gatekeeper note in docs/USER-GUIDE.md).
+
+name: Build plugins
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  macos:
+    name: macOS (VST3 + AU)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j 4
+
+      - name: Run DSP tests
+        run: ./build/dsp_tests
+
+      - name: Collect bundles
+        run: |
+          mkdir -p dist
+          cp -R "build/FrozenInFlames_artefacts/Release/VST3/Frozen In Flames.vst3" dist/
+          cp -R "build/FrozenInFlames_artefacts/Release/AU/Frozen In Flames.component" dist/
+
+      - name: Upload bundles
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrozenInFlames-macOS
+          path: dist/
+
+  linux:
+    name: Linux (VST3)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install JUCE system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libx11-dev libxext-dev \
+            libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+            libfreetype6-dev libfontconfig1-dev libgl1-mesa-dev
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j 4
+
+      - name: Run DSP tests
+        run: ./build/dsp_tests
+
+      - name: Collect bundle
+        run: |
+          mkdir -p dist
+          cp -R "build/FrozenInFlames_artefacts/Release/VST3/Frozen In Flames.vst3" dist/
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrozenInFlames-Linux
+          path: dist/
