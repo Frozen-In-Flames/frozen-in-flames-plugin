@@ -43,7 +43,7 @@ The DSP core is two JUCE-free, header-only files, `Source/FiDsp.h` (FFT, biquads
 
 ## AU status
 
-AU source complete; builds on macOS (and by macOS CI once the workflow file attached to the v1.0.0 release is placed at .github/workflows/build.yml); not yet tested in a Mac host; unsigned until the owner signs with his own developer account.
+AU built by macOS CI (GitHub Actions run 40064018365, October 23, 2026; the .component bundle is attached to this release). Not yet tested in a Mac host; unsigned until the owner signs with his own developer account.
 
 ## Licensing
 

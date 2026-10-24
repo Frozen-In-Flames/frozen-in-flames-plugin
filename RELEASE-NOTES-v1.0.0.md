@@ -35,7 +35,7 @@ First release. A spectral freeze and multi-model saturation plugin in one box, b
 ## Build status, honestly
 
 - Built and verified on Linux in this environment: VST3 bundle and Standalone app (Release build, about 12.8 MB and 13.0 MB). The VST3 was loaded through the real Steinberg factory interface by a test host: it exposes the Frozen In Flames audio module and controller, reports 1029 samples of latency, processes audio at the expected level, and round-trips its state (647 bytes).
-- AU source complete; builds on macOS from this project, and a ready GitHub Actions workflow (build.yml) is attached to this release for placement at .github/workflows/build.yml, after which release tags build the macOS VST3 and AU automatically. Not yet tested in a Mac host; unsigned until the owner signs with his own developer account.
+- AU built by macOS CI (GitHub Actions run 40064018365, October 23, 2026; the .component bundle is attached to this release). Not yet tested in a Mac host; unsigned until the owner signs with his own developer account.
 - Windows: builds from source with the same CMake project (instructions in the README); no prebuilt Windows binary in this release.
 - Not yet verified anywhere: loading inside a commercial host application, the live microphone path of the Standalone, and macOS builds. The first macOS build will confirm the macOS artifacts; results will be reported with the release.
 
