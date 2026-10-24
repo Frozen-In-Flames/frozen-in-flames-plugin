@@ -1,0 +1,21 @@
+# Build output
+/build/
+/build-*/
+cmake-build-*/
+
+# JUCE / CMake artefacts
+*_artefacts/
+*.vst3/
+*.component/
+*.app/
+
+# Local test binaries
+dsp_test
+*.o
+*.obj
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
