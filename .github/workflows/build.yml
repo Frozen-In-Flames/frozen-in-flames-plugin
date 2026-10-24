@@ -78,3 +78,30 @@ jobs:
         with:
           name: FrozenInFlames-Linux
           path: dist/
+
+  windows:
+    name: Windows (VST3)
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j 4
+
+      - name: Run DSP tests
+        run: ./build/dsp_tests.exe
+
+      - name: Collect bundle
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist
+          Copy-Item -Recurse "build/FrozenInFlames_artefacts/Release/VST3/Frozen In Flames.vst3" dist/
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: FrozenInFlames-Windows
+          path: dist/
